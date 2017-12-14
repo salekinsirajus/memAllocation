@@ -1,3 +1,9 @@
+#include "pm.h"
+#include <minix/callnr.h>
+#include <minix/com.h>
+#include <signal.h>
+#include "mproc.h"
+
 #define FIRST_FIT 0
 #define NEXT_FIT 1
 #define BEST_FIT 2
