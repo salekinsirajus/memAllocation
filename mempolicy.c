@@ -3,7 +3,7 @@
 #include <minix/com.h>
 #include <signal.h>
 #include "mproc.h"
-#inlcude "memheader.c"
+#include "memheader.c"
 
 #define FIRST_FIT 0
 #define NEXT_FIT 1
