@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "/usr/src/minix/servers/is/inc.h"
+#inlcude "/usr/src/minix/servers/pm/misc.c"
 #include "/usr/src/minix/lib/libsys/getsysinfo.c"
 /*
 #include <unistd.h>
