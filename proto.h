@@ -96,4 +96,4 @@ void set_rusage_times(struct rusage *r_usage, clock_t user_time,
 clock_t sys_time);
 
 /* mempolicy.c */
-void do_cyclemempolicy(void);
+int do_cyclemempolicy(void);
