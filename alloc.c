@@ -24,6 +24,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+#include "../pm/mempolicy.c"
 #include "vm.h"
 #include "proto.h"
 #include "util.h"
