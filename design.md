@@ -29,4 +29,6 @@ variable does which task, and where are they defined.
 
 Let's look into what we found in the first fit implementation by MINIX.
 The function looks like this:
-```static int findbit(int low, int startscan, int pages, int memflags, int *len)```
+```
+static int findbit(int low, int startscan, int pages, int memflags, int *len)
+```
