@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include "usr/src/minix/include/minix/sysinfo.h"
 //#include "/usr/src/servers/is/inc.h"
-#include "/usr/src/servers/pm/mproc.h"
+#include "/usr/src/minix/servers/pm/mproc.h"
 
 int main(){
     struct pm_mem_info pmi;
