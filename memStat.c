@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <minix/sysgetinfo>
 //#include "/usr/src/servers/is/inc.h"
 #include "/usr/src/servers/pm/mproc.h"
 
