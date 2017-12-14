@@ -6,9 +6,8 @@
 
 int CUSTOM_MEM_POLICY = FIRST_FIT;
 
-void do_cyclemempolicy(void){
+int do_cyclemempolicy(void){
     CUSTOM_MEM_POLICY = (CUSTOM_MEM_POLICY + 1) % 5;
-    printf("mem policy is %d \n", CUSTOM_MEM_POLICY);
 
-    return;
+    return(OK);
 }
