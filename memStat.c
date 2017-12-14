@@ -1,6 +1,7 @@
-include <stdio.h>
+#include <stdio.h>
 #include <unistd.h>
-#include <sys/syscall.h>
+#include "/usr/src/servers/is/inc.h"
+#include "/usr/src/servers/pm/mproc.h"
 
 int main(){
     struct pm_mem_info pmi;
