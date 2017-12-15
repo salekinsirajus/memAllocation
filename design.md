@@ -71,6 +71,9 @@ Now it's time to implement the algorithms. Let's do a quick recap of each of the
 All the algorithms are implemented in the `alloc.c` file, with some comments on it.
 So we are going to breifly explain how each algorithms implemented. Let's look at
 the first few line of First Fit algorihtm (under the `findbit` function:
+
+First Fit
+-------
 ```
   int run_length = 0, i;
   # run_length is the number of consecutive free pages we have found in the current
@@ -117,22 +120,60 @@ if(!run_length) { freerange_start = i; run_length = 1; }
 			*len = run_length;
 			return freerange_start;
 ```
-The `if(!run_length)` conditional means when we do *NOT* have consecutive free pages
+The `if(!run_length)` conditional means when we do NOT have ANY consecutive free pages
 in this memory block, we set the `freerange_start = i` (at whatever point we are
 in the range of free pages) and `run_length` to 1. This basically tells that since
-there are no free pages in this block, we reset to the range from here. (decrese the
+there are no free pages in this block, we reset the range from here. (decrese the
 width of the range)
 
 But when we *do* have some free pages in this block, we widen the range (`freerange_start--`)
 and increase the number of free pages in the block (`run_length++`).
 Next, `if (run_length == pages)`, that is, we found that the number of consecutive 
-free blocks is the hole size we are looking for, our search stop there. This is the first
+free blocks is the same as the size of the hole we are looking for, 
+our search stops there. This is the first
 candidate and we sent the address of the page and go home. The line above it 
-`assert(run_length <= pages);` ensures that we ARE selecting the first one that we
-find.
+`assert(run_length <= pages);` ensures that we ARE indeed selecting the first one that we
+find. If we are super unlucky and no hole big enough is found after looping through 
+the available hole, we return `NO_MEMORY`.
 
+Best Fit
+------
+First Fit isn't alway the most efficient algorithm. More often than not, when you 
+wait, better things come along. The Best Fit algorithm, therefore, does not settle 
+whenever it finds an eligible candidate. Let's take a look how it is implemented. 
 
-randomfit
+Similar to the first fit algorithm, ignore the irrelevant part. So our algorithm 
+is contained here:
+```
+if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_length < best)) {
+			best = run_length;
+			bestaddress = freerange_start;
+		}
+		
+		if(!run_length) { freerange_start = i; run_length = 1; }
+		else { freerange_start--; run_length++; }
+		
+	}
+	//assert(best <= pages);
+	if(best >= pages) {
+		*len = pages;
+		return bestaddress;
+```
+At this first line we check a few conditions:
+	1. if the current page is free 
+	2. the page at the before that is NOT free 
+	3. the number of free pages in the block is at least as big as what we need, AND
+	4. smaller than the previous best we found 
+We set that as the new best! 
+```
+			best = run_length;
+			bestaddress = freerange_start;
+```
+It is big enough to hold but the smallest the wastes the least amount of memory(so far).
+Next part, we do the same as what we did earlier:
+	
+Random Fit
+-----
 Random fit was the most difficult to implement, due to difficulties with keeping a list 
 of memory holes and with picking one at random.  We eventually decided to keep an array 
 of 500 appropriately sized holes with an integer tracking the number of holes present 
