@@ -2,7 +2,7 @@
 Maxwell Meier and Sirajus Salekin
 --------
 ### Environment 
-This project is developed for MINIX version 3.4
+This project is developed for MINIX version 3.4.
 It might not run in another environment.
 *****
 ### Where
