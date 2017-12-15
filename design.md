@@ -117,6 +117,10 @@ if(!run_length) { freerange_start = i; run_length = 1; }
 			*len = run_length;
 			return freerange_start;
 ```
+The `if(!run_length)` conditional means when we do *NOT* have consecutive free pages
+in this memory block, we set the `freerange_start = i` (at whatever point we are
+in the range of free pages) and `run_length` to 1 (meaning )
+
 
 randomfit
 Random fit was the most difficult to implement, due to difficulties with keeping a list 
