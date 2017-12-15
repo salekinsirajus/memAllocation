@@ -113,13 +113,23 @@ if(!run_length) { freerange_start = i; run_length = 1; }
 		else { freerange_start--; run_length++; }
 		assert(run_length <= pages);
 		if(run_length == pages) {
-			/* good block found! */
+		/* good block found! */
 			*len = run_length;
 			return freerange_start;
 ```
 The `if(!run_length)` conditional means when we do *NOT* have consecutive free pages
 in this memory block, we set the `freerange_start = i` (at whatever point we are
-in the range of free pages) and `run_length` to 1 (meaning )
+in the range of free pages) and `run_length` to 1. This basically tells that since
+there are no free pages in this block, we reset to the range from here. (decrese the
+width of the range)
+
+But when we *do* have some free pages in this block, we widen the range (`freerange_start--`)
+and increase the number of free pages in the block (`run_length++`).
+Next, `if (run_length == pages)`, that is, we found that the number of consecutive 
+free blocks is the hole size we are looking for, our search stop there. This is the first
+candidate and we sent the address of the page and go home. The line above it 
+`assert(run_length <= pages);` ensures that we ARE selecting the first one that we
+find.
 
 
 randomfit
