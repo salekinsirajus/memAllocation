@@ -369,6 +369,10 @@ void memstats(int *nodes, int *pages, int *largest)
 	}
 }
 
+/*===========================================================================*
+ *				First Fit Algorithm			     *
+ *===========================================================================*/
+
 static int findbit(int low, int startscan, int pages, int memflags, int *len)//First Fit algorithm is here
 {
 	int run_length = 0, i;
@@ -487,8 +491,7 @@ static int findbitr(int low, int startscan, int pages, int memflags, int *len)
 	int freerange_start = startscan;
 	int addresslist[500];
 	int addressnumber = 0;
-	srand (time(NULL));
-	int rando = rand();
+	int rando;
 	
 	for(i = startscan; i > low; i--) {
 		if(!page_isfree(i)) {
@@ -705,4 +708,3 @@ int usedpages_add_f(phys_bytes addr, phys_bytes len, const char *file, int line)
 }
 
 #endif
-
