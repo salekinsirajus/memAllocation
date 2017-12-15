@@ -1,13 +1,36 @@
-Design document design.pdf which should reside in the project directory with the rest of
-your code. Your design document should describe the design of your project in enough detail
-that a knowledgeable programmer could duplicate your work. This includes descriptions of
-the data structures you use, all non-trivial algorithms and formulas, and a description of each
-function including its purpose, inputs, outputs, and assumptions it makes about the inputs or
-outputs
-
 # Memory Allocation on MINIX3
 Maxwell Meier and Sirajus Salekin
 --------
+### Where
+This program is structured into two directories. The one called
+`testing` has only `testMemAlloc.c`, and produces a systemcall that
+cycles through all the different algorithm we described in this document.
+
+The other directory called `implementation` has the files we have actually
+modified in order to implement the algorithm. The following list contains
+the file name and where should they be placed
+```
+-Makefile	(minix/servers/pm/Makefile)
+-alloc.c	(minix/servers/pm/proto.h)
+-callnr.h
+-memheader.c
+-mempolicy.c
+-proto.h	()
+-table.c	(minix/servers/pm/table.c)
+```
+Specifically, `alloc.c` has the algorithm implementation. We also wrote a
+cycle-through-all-algorithms function, and it is implemented in `memheader.c` 
+and `mempolicy.c` file.
+The `proto.h`, `callnr.h`, `table.c` and `Makefile` were modified to implement
+that system call.
+
+*******
+### How To Run:
+
+```
+1. 
+```
+*******
 The objective for this project was to implement five memory allocation algorithms.
 Minix had a first fit algorithm implemented already (it was very close to being a next fit
 though). Specifically, we implemented the following algorithms:
