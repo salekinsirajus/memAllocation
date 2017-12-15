@@ -11,12 +11,15 @@ modified in order to implement the algorithm. The following list contains
 the file name and where should they be placed
 ```
 -Makefile	(minix/servers/pm/Makefile)
--alloc.c	(minix/servers/pm/proto.h)
--callnr.h
--memheader.c
--mempolicy.c
--proto.h	()
+-alloc.c	(minix/servers/vm/alloc)
+-callnr.h	(minix/include/minix/callnr.h)
+-memheader.c	(minix/servers/pm/memheader.c)
+-mempolicy.c	(minix/servers/pm/mempolicy.c)
+-proto.h	(minix/servers/pm/proto.h)
 -table.c	(minix/servers/pm/table.c)
+
+# Unless otherwise specified, all of these files can be found under
+# /usr/src/ path
 ```
 Specifically, `alloc.c` has the algorithm implementation. We also wrote a
 cycle-through-all-algorithms function, and it is implemented in `memheader.c` 
