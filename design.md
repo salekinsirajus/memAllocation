@@ -1,6 +1,10 @@
 # Memory Allocation on MINIX3
 Maxwell Meier and Sirajus Salekin
 --------
+### Environment 
+This project is developed for MINIX version 3.4
+It might not run in another environment.
+*****
 ### Where
 This program is structured into two directories. The one called
 `testing` has only `testMemAlloc.c`, and produces a systemcall that
@@ -31,9 +35,24 @@ that system call.
 ### How To Run:
 
 ```
-1. 
+1. Do a Make build as described in the assignment
+2. After the build is successful, you can compile the testMemAlloc.c with
+	Clang -o test testMemAlloc.c
+	or
+	cc -o test testMemAlloc.c
+3. run ./test
 ```
 *******
+### On getsysinfo()
+It appears that the last documentation on using `getsysinfo` system calls was
+made onsolete by the current kernel update. They introduced a lot changes in 
+the structure, and we searched for hours to no avail. We are convinced that
+informations such as `SI_MEM_ALLOC` not available to user programs anymore
+(which is what we need to use for getting memory usage info)
+
+*******
+### Algorithm Descriptions
+
 The objective for this project was to implement five memory allocation algorithms.
 Minix had a first fit algorithm implemented already (it was very close to being a next fit
 though). Specifically, we implemented the following algorithms:
