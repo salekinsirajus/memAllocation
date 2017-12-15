@@ -68,3 +68,19 @@ Now it's time to implement the algorithms. Let's do a quick recap of each of the
 4. Random Fit: Look at all the potential holes, and pick one at random.
 5. First Fit (default): Doesn't look any further; settle for the first hole it finds.
 
+All the algorithms are implemented in the `alloc.c` file, with some comments on it.
+So we are going to breifly explain how each algorithms implemented. Let's look at
+the first few line of First Fit algorihtm (under the `findbit` function:
+```
+	int run_length = 0, i;
+  # run_length is the number of consecutive free pages we have found in the current
+    block. And i is a counter
+  int freerange_start = startscan;
+  # freerange is the range of free holes, so the variable freerange_start indicates
+  # where that range starts.
+  # we are going to start looking for potential holes from backwards (scoll up as we
+  # said what each of parameters means
+    
+ ```
+ P.S.: we are using the `freerange=startscan` for all the algorithms as well: start
+ scanning for holes from the high point to the low point.
