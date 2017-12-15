@@ -154,16 +154,16 @@ if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_leng
 		else { freerange_start--; run_length++; }
 		
 	}
-	//assert(best <= pages);
+	
 	if(best >= pages) {
 		*len = pages;
 		return bestaddress;
 ```
 At this first line we check a few conditions:
-	1. if the current page is free 
-	2. the page at the before that is NOT free 
-	3. the number of free pages in the block is at least as big as what we need, AND
-	4. smaller than the previous best we found 
+1. if the current page is free 
+2. the page at the before that is NOT free 
+3. the number of free pages in the block is at least as big as what we need, AND
+4. smaller than the previous best we found 
 We set that as the new best! 
 ```
 			best = run_length;
@@ -171,7 +171,22 @@ We set that as the new best!
 ```
 It is big enough to hold but the smallest the wastes the least amount of memory(so far).
 Next part, we do the same as what we did earlier:
-	
+```
+if(!run_length) { freerange_start = i; run_length = 1; }
+```
+We have zero consecutive pages in this block, so we shorten the range to start from here.
+But if we have some free pages, we widen the range.
+```
+else { freerange_start--; run_length++; }
+```
+After looking through all the available holes, we send the address of the best hole we
+ended up with and send the address. 
+```
+if(best >= pages) {
+		*len = pages;
+		return bestaddress;
+```
+
 Random Fit
 -----
 Random fit was the most difficult to implement, due to difficulties with keeping a list 
