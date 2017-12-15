@@ -142,8 +142,30 @@ First Fit isn't alway the most efficient algorithm. More often than not, when yo
 wait, better things come along. The Best Fit algorithm, therefore, does not settle 
 whenever it finds an eligible candidate. Let's take a look how it is implemented. 
 
-Similar to the first fit algorithm, ignore the irrelevant part. So our algorithm 
-is contained here:
+Similar to the first fit algorithm, ignore the irrelevant part, whcih is:
+```
+for(i = startscan; i > low; i--) {
+		if(!page_isfree(i)) {
+			
+			int pi;
+			int chunk = i/BITCHUNK_BITS, moved = 0;
+			run_length = 0;
+			pi = i;
+			while(chunk > 0 &&
+				!MAP_CHUNK(free_pages_bitmap, chunk*BITCHUNK_BITS)) {
+				chunk--;
+				moved = 1;
+			}
+			if(moved) { i = chunk * BITCHUNK_BITS + BITCHUNK_BITS; }
+			continue;
+		}
+```
+Since we need to keep track of the best one so far, we initiliaze a variable
+```
+int best = INT_MAX;//Maximum value of an int
+```
+
+Our actual algorithm is contained here:
 ```
 if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_length < best)) {
 			best = run_length;
@@ -159,7 +181,10 @@ if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_leng
 		*len = pages;
 		return bestaddress;
 ```
-At this first line we check a few conditions:
+At the following line we check a few conditions:
+```
+if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_length < best))
+```
 1. if the current page is free 
 2. the page at the before that is NOT free 
 3. the number of free pages in the block is at least as big as what we need, AND
@@ -186,11 +211,42 @@ if(best >= pages) {
 		*len = pages;
 		return bestaddress;
 ```
+Worst Fit
+-----
+Worst Fit very similar to the First Fit algorithm, except we keep track of the worst candidate
+with `int worst` variable (intialized at 0).
+
+The important condition is the same as well, except:
+```
+if((!page_isfree(i)) && (page_isfree(i-1)) && (run_length >= pages) && (run_length > worst))
+```
+we have found this block is worse than the current worst (`run_length > worst`).
 
 Random Fit
 -----
-Random fit was the most difficult to implement, due to difficulties with keeping a list 
-of memory holes and with picking one at random.  We eventually decided to keep an array 
-of 500 appropriately sized holes with an integer tracking the number of holes present 
-in the list, and using an uninitialized integer as a pseudorandom number, as rand() 
-proved to not work, to pick one from the list.
+The idea here is to keep track of eligible blocks, and pick one at random.
+However, it was the most difficult to implement, due to difficulties with 
+keeping an appropriatly sized list 
+of memory holes and with picking one at random. So we decided to keep an array 
+of 500 memory holes with enough free pages (`int addresslist[500];`)
+with an integer (`int addressnumber`) tracking the number of holes present 
+in the list.
+
+Since `rand()` wasn't working, we used an uninitialzed variable to get some 
+kind of random number. In C, an uninitialized variable can have any value, 
+from the last time this address was used, and it turned out to be a good place
+to find a random number.
+```
+if(addressnumber >= 1) {
+		*len = pages;
+		int bestaddress = addresslist[rando % addressnumber];
+		return bestaddress;
+```
+Next Fit
+-----
+The next fit algorithm does not have its own function.  The original `findbit` 
+function (best fit) has its start and end points passed to it as parameters, and the 
+\only difference between first fit and next fit is in the start points.  
+With this in mind we decided to call the first fit algorithm with the address of 
+the last allocated page as its starting point, rather than having it start at 
+the beginning every time, if the memory policy is set to next fit.
