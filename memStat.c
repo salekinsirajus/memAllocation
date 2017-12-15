@@ -1,18 +1,15 @@
-#include <stdio.h>
-#include "/usr/src/minix/servers/is/inc.h"
-#include <minix/sysinfo.h>
-#include <minix/com.h>
-#include <lib.h>
-#include "/usr/src/minix/servers/pm/mproc.h"
+#include <unistd.h>
+#include "/usr/src/servers/is/inc.h"
+#include "/usr/src/servers/pm/mproc.h"
 
-int main(){
-    struct mproc pmi;
-    int i;
+int main(int argc, char * argv[]) {
+  struct pm_mem_info pmi;
+  int i;
 
-    getsysinfo(PM_PROC_NR, SI_PROC_TAB, &pmi, sizeof(pmi));
-    for (i = 0; i < pmi._NR_HOLES; i++){
-        printf("Hole size: %d", pmi.pmi_holes[i].h_len);
-        }
-
-return 0;
+  getsysinfo(PM_PROC_NNR, SI_MEM_ALLOC, &pmi);
+  
+  for(i = 0; i < _NR_HOLES; i++) {
+    printf("Hole size: %d", pmi.pmi_holes[i].h_len);
+  }
+  return 0;
 }
