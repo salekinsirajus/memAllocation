@@ -56,3 +56,15 @@ int *len # a pointer to an integer recording the size of the memory block.
 After we found out why the first fit function is using those parameters, and what
 role each of them play, we had now a way to implement other algorithms using those
 (and perhaps a few other) variables.
+
+Now it's time to implement the algorithms. Let's do a quick recap of each of them.
+1. Best Fit: Finding the best hole for the requested size. So if requested size is
+  150, we will try to get a hole as close as we possibly can.
+2. Next Fit: Start looking for the hole from the last place we 
+  stopped at. So if we stopped at memory address 1500 in the previous request cycle, 
+  we will start our search for new request from 1500.
+3. Worst Fit: Settling for the biggest hole (which is the worst one for the size of
+  the requested memory)
+4. Random Fit: Look at all the potential holes, and pick one at random.
+5. First Fit (default): Doesn't look any further; settle for the first hole it finds.
+
