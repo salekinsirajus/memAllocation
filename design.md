@@ -37,7 +37,7 @@ The function looks like this:
 ```
 static int findbit(int low, int startscan, int pages, int memflags, int *len)
 ```
-Let's break it down into peices.
+Let's break it down into peices and see what each parameter does.
 ```
 int startscan # The starting point where the we look for memory hole with a loop
 int low # The ending point for the loop
@@ -72,7 +72,7 @@ All the algorithms are implemented in the `alloc.c` file, with some comments on 
 So we are going to breifly explain how each algorithms implemented. Let's look at
 the first few line of First Fit algorihtm (under the `findbit` function:
 ```
-	int run_length = 0, i;
+  int run_length = 0, i;
   # run_length is the number of consecutive free pages we have found in the current
     block. And i is a counter
   int freerange_start = startscan;
@@ -82,5 +82,13 @@ the first few line of First Fit algorihtm (under the `findbit` function:
   # said what each of parameters means
     
  ```
- P.S.: we are using the `freerange=startscan` for all the algorithms as well: start
+ P.S.: we are using the `freerange=startscan` for all the algorithms to: start
  scanning for holes from the high point to the low point.
+
+
+randomfit
+Random fit was the most difficult to implement, due to difficulties with keeping a list 
+of memory holes and with picking one at random.  We eventually decided to keep an array 
+of 500 appropriately sized holes with an integer tracking the number of holes present 
+in the list, and using an uninitialized integer as a pseudorandom number, as rand() 
+proved to not work, to pick one from the list.
