@@ -9,7 +9,7 @@ int main(){
     struct mproc pmi;
     int i;
 
-    getsysinfo(PM_PROC_NR, SI_PROC_TAB, &pmi);
+    getsysinfo(PM_PROC_NR, SI_PROC_TAB, &pmi, sizeof(pmi));
     for (i = 0; i < _NR_HOLES; i++){
         printf("Hole size: %d", pmi.pmi_holes[i].h_len);
         }
