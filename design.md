@@ -82,10 +82,32 @@ the first few line of First Fit algorihtm (under the `findbit` function:
   # said what each of parameters means
     
  ```
- P.S.: we are using the `freerange=startscan` for all the algorithms to: start
- scanning for holes from the high point to the low point.
+P.S.: we are using the `freerange=startscan` for all the algorithms to: start
+scanning for holes from the high point to the low point.
 
+Moving on, we enter into a `for` loop starting the actual searching process. There is
+a bit of code after `if(!page_isfree(i))` part, and we are assuming it does some kind
+of chunking of some sort, but we don't know why it does what it does. More importnantly,
+it doesn't affect our algorithm, so we are not going down the rabbit hole. Part of 
+programming an operating system is to have a working one, so we left it there so that
+nothing breaks. So ignore this snippet! :D 
 
+```
+if(!page_isfree(i)) {//if the page at that address is free
+			int pi;
+			int chunk = i/BITCHUNK_BITS, moved = 0;
+			run_length = 0;
+			pi = i;
+			while(chunk > 0 &&
+			   !MAP_CHUNK(free_pages_bitmap, chunk*BITCHUNK_BITS)) {
+				chunk--;
+				moved = 1;
+			}
+			if(moved) { i = chunk * BITCHUNK_BITS + BITCHUNK_BITS; }
+			continue;
+		}
+
+```
 randomfit
 Random fit was the most difficult to implement, due to difficulties with keeping a list 
 of memory holes and with picking one at random.  We eventually decided to keep an array 
