@@ -87,11 +87,10 @@ scanning for holes from the high point to the low point.
 
 Moving on, we enter into a `for` loop starting the actual searching process. There is
 a bit of code after `if(!page_isfree(i))` part, and we are assuming it does some kind
-of chunking of some sort, but we don't know why it does what it does. More importnantly,
+of chunking, but we don't know why it does what it does. More importnantly,
 it doesn't affect our algorithm, so we are not going down the rabbit hole. Part of 
 programming an operating system is to have a working one, so we left it there so that
-nothing breaks. So ignore this snippet! :D 
-
+nothing breaks. We will just ignore this snippet! :D 
 ```
 if(!page_isfree(i)) {//if the page at that address is free
 			int pi;
@@ -106,8 +105,19 @@ if(!page_isfree(i)) {//if the page at that address is free
 			if(moved) { i = chunk * BITCHUNK_BITS + BITCHUNK_BITS; }
 			continue;
 		}
-
 ```
+The followinf piece of code, however, we don't ignore. This is where the meat of 
+the algorithm goes. Let's see how it works.
+```
+if(!run_length) { freerange_start = i; run_length = 1; }
+		else { freerange_start--; run_length++; }
+		assert(run_length <= pages);
+		if(run_length == pages) {
+			/* good block found! */
+			*len = run_length;
+			return freerange_start;
+```
+
 randomfit
 Random fit was the most difficult to implement, due to difficulties with keeping a list 
 of memory holes and with picking one at random.  We eventually decided to keep an array 
